@@ -29,7 +29,7 @@ public class App {
             if (isWhiteScreen) {
                 System.out.println("White screen detected!");
                 // TODO: Add code to launch "原神" program
-                String filePath = "E:\\Genshin Impact\\launcher.exe"; // 指定程序的路径
+                String filePath = "E:\\Genshin Impact\\Genshin Impact Game\\YuanShen.exe"; // 指定程序的路径
                 try {
                     File file = new File(filePath);
                     Desktop.getDesktop().open(file);
