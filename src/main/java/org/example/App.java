@@ -25,7 +25,7 @@ public class App {
         while (true) {
             BufferedImage screenshot = robot.createScreenCapture(screenRect);
             boolean isWhiteScreen = isWhiteScreen(screenshot);
-
+            boolean isBlackScreen = isBlackScreen(screenshot);
             if (isWhiteScreen) {
                 System.out.println("White screen detected!");
                 // TODO: Add code to launch "原神" program
@@ -33,6 +33,18 @@ public class App {
                 try {
                     File file = new File(filePath);
                     Desktop.getDesktop().open(file);
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (isBlackScreen) {
+                System.out.println("Black screen detected!");
+                // TODO: Add code to launch "崩坏:星穹铁道" program
+                String filePath = "E:\\Star Rail\\Game\\StarRail.exe"; // 指定程序的路径
+                try {
+                    File file = new File(filePath);
+                    Desktop.getDesktop().open(file);
+                    return;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -49,8 +61,8 @@ public class App {
     private static boolean isWhiteScreen(BufferedImage image) {
         int whiteThreshold = 220; // Adjust threshold as needed
 
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
+        for (int y = 200; y < image.getHeight()-200; y++) {
+            for (int x = 0; x < image.getWidth()-200; x++) {
                 Color pixelColor = new Color(image.getRGB(x, y));
                 int avgColor = (pixelColor.getRed() + pixelColor.getGreen() + pixelColor.getBlue()) / 3;
 
@@ -61,6 +73,23 @@ public class App {
         }
 
         return true; // White screen detected
+    }
+
+    private static boolean isBlackScreen(BufferedImage image) {
+        int blackThreshold = 35; // 调整阈值，根据实际情况
+
+        for (int y = 200; y < image.getHeight()-200; y++) {
+            for (int x = 0; x < image.getWidth()-200; x++) {
+                Color pixelColor = new Color(image.getRGB(x, y));
+                int avgColor = (pixelColor.getRed() + pixelColor.getGreen() + pixelColor.getBlue()) / 3;
+
+                if (avgColor > blackThreshold) {
+                    return false; // Not a black screen
+                }
+            }
+        }
+
+        return true; // Black screen detected
     }
 
 }
